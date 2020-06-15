@@ -21,6 +21,8 @@ set undofile
 set incsearch
 set termguicolors
 set scrolloff=8
+set spell
+set spelllang=en_us
 
 "Give more space for displaying messages.
 set cmdheight=2
@@ -82,6 +84,8 @@ let g:go_auto_sameids = 1
 
 " --- vim python
 let python_highlight_all = 1
+set clipboard=unnamedplus
+set relativenumber
 
 colorscheme gruvbox
 set background=dark
@@ -115,6 +119,19 @@ vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 nmap <C-s> :wq<CR>
 nmap <C-q> :q<CR>
+nmap <F9> :Tlist<CR>
+nmap <silent> <F9> :Rgrep<CR>
+noremap y "+y
+noremap yy "+yy
+noremap Y "+y$
+noremap x "+x
+noremap dd "+dd
+noremap D "+D
+
+autocmd Filetype cpp setlocal expandtab tabstop=2 shiftwidth=2
+autocmd Filetype python setlocal expandtab tabstop=4 shiftwidth=4
+
+set tags=/home/jungyongchoi/oe-server2/code_gld4tv/audiod-pro/tags,/home/jungyongchoi/oe-server2/code_jcl4tv/audiod-pro/tags,/home/jungyongchoi/oe-server2/code_jcl4tv/audiooutputd-pro/tags,/home/jungyongchoi/oe-server2/code_jcl4tv/umi-pro/tags,/home/jungyongchoi/oe-server2/code_jcl4tv/legacy-broadcast/tags,/home/jungyongchoi/unittest/tags,/home/jungyongchoi/oe-server2/code_jcl4tv/arccontroller/tags
 
 " Vim with me
 nnoremap <leader>vwm :colorscheme gruvbox<bar>:set background=dark<CR>
@@ -162,3 +179,4 @@ fun! TrimWhitespace()
 endfun
 
 autocmd BufWritePre * :call TrimWhitespace()
+autocmd BufWritePre * :call system("ctags -R")
