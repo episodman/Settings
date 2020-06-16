@@ -23,6 +23,7 @@ set termguicolors
 set scrolloff=8
 set spell
 set spelllang=en_us
+set ignorecase
 
 "Give more space for displaying messages.
 set cmdheight=2
@@ -178,5 +179,5 @@ fun! TrimWhitespace()
 	call winrestview(l:save)
 endfun
 
-autocmd BufWritePre * :call TrimWhitespace()
+"autocmd BufWritePre * :call TrimWhitespace()
 autocmd BufWritePre * :call system("ctags -R")
