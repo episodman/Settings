@@ -1,33 +1,26 @@
-syntax on
-filetype indent plugin on
-
-set guicursor=
-set noshowmatch
-set relativenumber
-set nohlsearch
-set hidden
-set noerrorbells
-set tabstop=4 softtabstop=4
-set shiftwidth=4
-set expandtab
-set smartindent
-set nu
-set nowrap
-set smartcase
-set noswapfile
-set nobackup
-set undodir=~/.vim/undodir
-set undofile
-set incsearch
-set termguicolors
-set scrolloff=8
-set spell
-set spelllang=en_us
-set ignorecase
-
-"Give more space for displaying messages.
-set cmdheight=2
-
+set hidden                                                                      
+set noerrorbells                                                                
+set tabstop=4 softtabstop=4                                                     
+set shiftwidth=4                                                                
+set expandtab                                                                   
+set smartindent                                                                 
+set nu                                                                          
+set nowrap                                                                      
+set smartcase                                                                   
+set noswapfile                                                                  
+set nobackup                                                                    
+set undodir=~/.vim/undodir                                                      
+set undofile                                                                    
+set incsearch                                                                   
+set termguicolors                                                               
+set scrolloff=8                                                                 
+set spell                                                                       
+set spelllang=en_us                                                             
+set ignorecase                                                                  
+                                                                                
+"Give more space for displaying messages.                                       
+set cmdheight=2                                                                 
+                                                                                
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 " delays and poor user experience.
 set updatetime=50
@@ -59,13 +52,19 @@ Plug 'flazz/vim-colorschemes'
 Plug '/home/mpaulson/personal/vim-be-good'
 Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'jiangmiao/auto-pairs'
-
+Plug 'kien/ctrlp.vim'
+Plug 'tell-k/vim-autopep8'
 call plug#end()
 
 let g:gruvbox_contrast_dark = 'hard'
 
 " --- The Greatest plugin of all time.  I am not bias
 let g:vim_be_good_floating = 1
+
+" --- ctrlp 
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+set wildignore+=*/tmp/*,*.so,*\\tmp\\*,*.swp,*.zip,*.exe 
 
 " --- vim go (polyglot) settings.
 let g:go_highlight_build_constraints = 1
@@ -82,11 +81,19 @@ let g:go_highlight_generate_tags = 1
 let g:go_highlight_format_strings = 1
 let g:go_highlight_variable_declarations = 1
 let g:go_auto_sameids = 1
-
+" --- coc
+let g:coc_disable_startup_warning = 1
 " --- vim python
 let python_highlight_all = 1
+let g:autopep8_on_save = 1
+let g:autopep8_disable_show_diff=1
+
 set clipboard=unnamedplus
 set relativenumber
+
+" --- netrw
+let g:netrw_liststyle=3
+let g:netrw_altv = 1
 
 colorscheme gruvbox
 set background=dark
@@ -112,7 +119,8 @@ nnoremap <leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
 nnoremap <Leader>ps :Rg<SPACE>
 nnoremap <C-p> :GFiles<CR>
 nnoremap <Leader>pf :Files<CR>
-nnoremap <Leader><CR> :so ~/.config/nvim/init.vim<CR>
+"nnoremap <Leader><CR> :so ~/.config/nvim/init.vim<CR>
+nnoremap <Leader><CR> :so ~/.vimrc<CR>
 nnoremap <Leader>+ :vertical resize +5<CR>
 nnoremap <Leader>- :vertical resize -5<CR>
 nnoremap <Leader>ee oif err != nil {<CR>log.Fatalf("%+v\n", err)<CR>}<CR><esc>kkI<esc>
@@ -122,6 +130,8 @@ nmap <C-s> :wq<CR>
 nmap <C-q> :q<CR>
 nmap <F9> :Tlist<CR>
 nmap <silent> <F9> :Rgrep<CR>
+nnoremap <F5> :!ctags -R --exclude=oe-logs --exclude=oe-workdir<CR>
+nnoremap <F6> :!set tags=./tags,tags<CR>
 noremap y "+y
 noremap yy "+yy
 noremap Y "+y$
@@ -131,6 +141,8 @@ noremap D "+D
 
 autocmd Filetype cpp setlocal expandtab tabstop=2 shiftwidth=2
 autocmd Filetype python setlocal expandtab tabstop=4 shiftwidth=4
+autocmd FileType python noremap <buffer> <F8> :call Autopep8()<CR>
+autocmd FileType python set equalprg=autopep8\ -
 
 set tags=/home/jungyongchoi/oe-server2/code_gld4tv/audiod-pro/tags,/home/jungyongchoi/oe-server2/code_jcl4tv/audiod-pro/tags,/home/jungyongchoi/oe-server2/code_jcl4tv/audiooutputd-pro/tags,/home/jungyongchoi/oe-server2/code_jcl4tv/umi-pro/tags,/home/jungyongchoi/oe-server2/code_jcl4tv/legacy-broadcast/tags,/home/jungyongchoi/unittest/tags,/home/jungyongchoi/oe-server2/code_jcl4tv/arccontroller/tags
 
@@ -180,4 +192,4 @@ fun! TrimWhitespace()
 endfun
 
 "autocmd BufWritePre * :call TrimWhitespace()
-autocmd BufWritePre * :call system("ctags -R")
+"autocmd BufWritePre * :call system("ctags -R")
