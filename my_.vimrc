@@ -1,3 +1,9 @@
+syntax on
+
+set guicursor=
+set noshowmatch
+set relativenumber
+set nohlsearch
 set hidden                                                                      
 set noerrorbells                                                                
 set tabstop=4 softtabstop=4                                                     
