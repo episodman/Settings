@@ -60,6 +60,11 @@ Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'jiangmiao/auto-pairs'
 Plug 'kien/ctrlp.vim'
 Plug 'tell-k/vim-autopep8'
+"Plug 'BurntSushi/ripgrepA'
+Plug 'othree/eregex.vim'
+Plug 'preservim/nerdcommenter'
+Plug 'tpope/vim-surround'
+
 call plug#end()
 
 let g:gruvbox_contrast_dark = 'hard'
@@ -68,9 +73,12 @@ let g:gruvbox_contrast_dark = 'hard'
 let g:vim_be_good_floating = 1
 
 " --- ctrlp 
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
+" let g:ctrlp_map = '<c-p>'
+" let g:ctrlp_cmd = 'CtrlP'
 set wildignore+=*/tmp/*,*.so,*\\tmp\\*,*.swp,*.zip,*.exe 
+"set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.exe,**/oe-workdir/**,**/oe-logs/**,**/oe-workdir/*
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.exe,oe-workdir/**,oe-logs/**,env/**,venv/**,venv3/**,build/**
+" set wildignore=/home/work/jungyong.choi/code_jcl4tv/audiod-pro/**/oe-workdir/
 
 " --- vim go (polyglot) settings.
 let g:go_highlight_build_constraints = 1
@@ -124,7 +132,12 @@ nnoremap <leader>u :UndotreeShow<CR>
 nnoremap <leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
 nnoremap <Leader>ps :Rg<SPACE>
 nnoremap <C-p> :GFiles<CR>
-nnoremap <Leader>pf :Files<CR>
+"nnoremap <Leader>ps :Rg<SPACE>
+"nnoremap <C-p> :GFiles<CR>
+nnoremap <C-p> :Files<CR>
+" nnoremap <Leader>pf :Files<CR>
+" nnoremap <Leader><CR> :so ~/.config/nvim/init.vim<CR>
+" nnoremap <Leader>pf :Files<CR>
 "nnoremap <Leader><CR> :so ~/.config/nvim/init.vim<CR>
 nnoremap <Leader><CR> :so ~/.vimrc<CR>
 nnoremap <Leader>+ :vertical resize +5<CR>
