@@ -60,11 +60,10 @@ Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'jiangmiao/auto-pairs'
 Plug 'kien/ctrlp.vim'
 Plug 'tell-k/vim-autopep8'
-"Plug 'BurntSushi/ripgrepA'
-Plug 'othree/eregex.vim'
+Plug 'dart-lang/dart-vim-plugin'
 Plug 'preservim/nerdcommenter'
 Plug 'tpope/vim-surround'
-
+Plug 'oblitum/rainbow'
 call plug#end()
 
 let g:gruvbox_contrast_dark = 'hard'
@@ -73,12 +72,9 @@ let g:gruvbox_contrast_dark = 'hard'
 let g:vim_be_good_floating = 1
 
 " --- ctrlp 
-" let g:ctrlp_map = '<c-p>'
-" let g:ctrlp_cmd = 'CtrlP'
+"let g:ctrlp_map = '<c-p>'
+"let g:ctrlp_cmd = 'CtrlP'
 set wildignore+=*/tmp/*,*.so,*\\tmp\\*,*.swp,*.zip,*.exe 
-"set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.exe,**/oe-workdir/**,**/oe-logs/**,**/oe-workdir/*
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.exe,oe-workdir/**,oe-logs/**,env/**,venv/**,venv3/**,build/**
-" set wildignore=/home/work/jungyong.choi/code_jcl4tv/audiod-pro/**/oe-workdir/
 
 " --- vim go (polyglot) settings.
 let g:go_highlight_build_constraints = 1
@@ -101,6 +97,10 @@ let g:coc_disable_startup_warning = 1
 let python_highlight_all = 1
 let g:autopep8_on_save = 1
 let g:autopep8_disable_show_diff=1
+
+"  --- bracket rainbow
+let g:rainbow_active = 1
+
 
 set clipboard=unnamedplus
 set relativenumber
@@ -132,12 +132,7 @@ nnoremap <leader>u :UndotreeShow<CR>
 nnoremap <leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
 nnoremap <Leader>ps :Rg<SPACE>
 nnoremap <C-p> :GFiles<CR>
-"nnoremap <Leader>ps :Rg<SPACE>
-"nnoremap <C-p> :GFiles<CR>
-nnoremap <C-p> :Files<CR>
-" nnoremap <Leader>pf :Files<CR>
-" nnoremap <Leader><CR> :so ~/.config/nvim/init.vim<CR>
-" nnoremap <Leader>pf :Files<CR>
+nnoremap <Leader>pf :Files<CR>
 "nnoremap <Leader><CR> :so ~/.config/nvim/init.vim<CR>
 nnoremap <Leader><CR> :so ~/.vimrc<CR>
 nnoremap <Leader>+ :vertical resize +5<CR>
@@ -157,8 +152,10 @@ noremap Y "+y$
 noremap x "+x
 noremap dd "+dd
 noremap D "+D
+nmap <leader>q :q<CR>
+nmap <leader>w :wq<CR>
 
-autocmd Filetype cpp setlocal expandtab tabstop=2 shiftwidth=2
+autocmd Filetype cpp setlocal expandtab tabstop=4 shiftwidth=4
 autocmd Filetype python setlocal expandtab tabstop=4 shiftwidth=4
 autocmd FileType python noremap <buffer> <F8> :call Autopep8()<CR>
 autocmd FileType python set equalprg=autopep8\ -
