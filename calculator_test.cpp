@@ -59,7 +59,7 @@ char changeResultToChar(int s, int d)
     cout << endl;
 }
 
-void solve()
+void solution()
 {
     // char to decimal
     int sLen = strlen(S);
@@ -115,7 +115,7 @@ int main(){
 	scanf("%d", &N);
 	for(i = 0; i < N; i++){
 		InputData();
-		solve();
+		solution();
 	}
 	return 0;
 }

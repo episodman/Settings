@@ -63,9 +63,9 @@ Plug 'tell-k/vim-autopep8'
 Plug 'dart-lang/dart-vim-plugin'
 Plug 'preservim/nerdcommenter'
 Plug 'tpope/vim-surround'
-Plug 'oblitum/rainbow'
 call plug#end()
 
+let g:coc_node_path = '/usr/bin/nodejs'
 let g:gruvbox_contrast_dark = 'hard'
 
 " --- The Greatest plugin of all time.  I am not bias
@@ -102,8 +102,6 @@ let g:autopep8_disable_show_diff=1
 let g:rainbow_active = 1
 
 
-set clipboard=unnamedplus
-set relativenumber
 
 " --- netrw
 let g:netrw_liststyle=3
@@ -140,8 +138,6 @@ nnoremap <Leader>- :vertical resize -5<CR>
 nnoremap <Leader>ee oif err != nil {<CR>log.Fatalf("%+v\n", err)<CR>}<CR><esc>kkI<esc>
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
-nmap <C-s> :wq<CR>
-nmap <C-q> :q<CR>
 nmap <F9> :Tlist<CR>
 nmap <silent> <F9> :Rgrep<CR>
 nnoremap <F5> :!ctags -R --exclude=oe-logs --exclude=oe-workdir<CR>
@@ -153,7 +149,7 @@ noremap x "+x
 noremap dd "+dd
 noremap D "+D
 nmap <leader>q :q<CR>
-nmap <leader>w :wq<CR>
+nmap <leader>w :w<CR>
 
 autocmd Filetype cpp setlocal expandtab tabstop=4 shiftwidth=4
 autocmd Filetype python setlocal expandtab tabstop=4 shiftwidth=4
@@ -207,5 +203,8 @@ fun! TrimWhitespace()
 	call winrestview(l:save)
 endfun
 
+autocmd BufWritePre <buffer> %s/\s\+$//e
+set clipboard=unnamedplus
+set relativenumber
 "autocmd BufWritePre * :call TrimWhitespace()
 "autocmd BufWritePre * :call system("ctags -R")
