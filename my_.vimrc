@@ -3,30 +3,32 @@ syntax on
 set guicursor=
 set noshowmatch
 set relativenumber
-set nohlsearch
-set hidden                                                                      
-set noerrorbells                                                                
-set tabstop=4 softtabstop=4                                                     
-set shiftwidth=4                                                                
-set expandtab                                                                   
-set smartindent                                                                 
-set nu                                                                          
-set nowrap                                                                      
-set smartcase                                                                   
-set noswapfile                                                                  
-set nobackup                                                                    
-set undodir=~/.vim/undodir                                                      
-set undofile                                                                    
-set incsearch                                                                   
-set termguicolors                                                               
-set scrolloff=8                                                                 
-set spell                                                                       
-set spelllang=en_us                                                             
-set ignorecase                                                                  
-                                                                                
-"Give more space for displaying messages.                                       
-set cmdheight=2                                                                 
-                                                                                
+set hlsearch
+set hidden
+set noerrorbells
+set tabstop=4 softtabstop=4
+set shiftwidth=4
+set expandtab
+set smartindent
+set nu
+set nowrap
+set smartcase
+set noswapfile
+set nobackup
+set undodir=~/.vim/undodir
+set undofile
+set incsearch
+set termguicolors
+set scrolloff=8
+set ignorecase
+set spell
+set spelllang=en_us
+set backspace=indent,eol,start
+set t_Co=256
+
+"Give more space for displaying messages.
+set cmdheight=2
+
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 " delays and poor user experience.
 set updatetime=50
@@ -35,7 +37,7 @@ set updatetime=50
 set shortmess+=c
 
 set colorcolumn=80
-highlight ColorColumn ctermbg=0 guibg=lightgrey
+highlight ColorColumn ctermbg=100 guibg=lightgrey
 
 call plug#begin('~/.vim/plugged')
 
@@ -58,7 +60,6 @@ Plug 'flazz/vim-colorschemes'
 Plug '/home/mpaulson/personal/vim-be-good'
 Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'jiangmiao/auto-pairs'
-Plug 'kien/ctrlp.vim'
 Plug 'tell-k/vim-autopep8'
 Plug 'dart-lang/dart-vim-plugin'
 Plug 'preservim/nerdcommenter'
@@ -71,10 +72,10 @@ let g:gruvbox_contrast_dark = 'hard'
 " --- The Greatest plugin of all time.  I am not bias
 let g:vim_be_good_floating = 1
 
-" --- ctrlp 
+" --- ctrlp
 "let g:ctrlp_map = '<c-p>'
 "let g:ctrlp_cmd = 'CtrlP'
-set wildignore+=*/tmp/*,*.so,*\\tmp\\*,*.swp,*.zip,*.exe 
+set wildignore+=*/tmp/*,*.so,*\\tmp\\*,*.swp,*.zip,*.exe
 
 " --- vim go (polyglot) settings.
 let g:go_highlight_build_constraints = 1
@@ -99,7 +100,7 @@ let g:autopep8_on_save = 1
 let g:autopep8_disable_show_diff=1
 
 "  --- bracket rainbow
-let g:rainbow_active = 1
+" let g:rainbow_active = 1
 
 
 
@@ -146,10 +147,12 @@ noremap y "+y
 noremap yy "+yy
 noremap Y "+y$
 noremap x "+x
-noremap dd "+dd
 noremap D "+D
+noremap dd "+ dd
 nmap <leader>q :q<CR>
 nmap <leader>w :w<CR>
+"map! ii <ESC>
+inoremap ii <esc>
 
 autocmd Filetype cpp setlocal expandtab tabstop=4 shiftwidth=4
 autocmd Filetype python setlocal expandtab tabstop=4 shiftwidth=4
@@ -203,8 +206,24 @@ fun! TrimWhitespace()
 	call winrestview(l:save)
 endfun
 
-autocmd BufWritePre <buffer> %s/\s\+$//e
 set clipboard=unnamedplus
 set relativenumber
+
+autocmd BufWritePre <buffer> %s/\s\+$//e
+"gnome
+if has("autocmd")
+  au VimEnter,InsertLeave * silent execute '!echo -ne "\e[2 q"' | redraw!
+  au InsertEnter,InsertChange *
+    \ if v:insertmode == 'i' |
+    \   silent execute '!echo -ne "\e[6 q"' | redraw! |
+    \ elseif v:insertmode == 'r' |
+    \   silent execute '!echo -ne "\e[4 q"' | redraw! |
+    \ endif
+  au VimLeave * silent execute '!echo -ne "\e[ q"' | redraw!
+endif
+"iterm2 macos
+let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+let &t_SR = "\<Esc>]50;CursorShape=2\x7"
+let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 "autocmd BufWritePre * :call TrimWhitespace()
 "autocmd BufWritePre * :call system("ctags -R")
