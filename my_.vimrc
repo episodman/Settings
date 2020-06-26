@@ -1,7 +1,7 @@
 syntax on
 
-set guicursor=
 set noshowmatch
+set guicursor=
 set relativenumber
 set hlsearch
 set hidden
@@ -37,7 +37,7 @@ set updatetime=50
 set shortmess+=c
 
 set colorcolumn=80
-highlight ColorColumn ctermbg=100 guibg=lightgrey
+highlight ColorColumn ctermbg=0 guibg=lightgrey
 
 call plug#begin('~/.vim/plugged')
 
@@ -52,6 +52,7 @@ Plug 'junegunn/fzf.vim'
 
 "  I AM SO SORRY FOR DOING COLOR SCHEMES IN MY VIMRC, BUT I HAVE
 "  TOOOOOOOOOOOOO
+Plug 'dracula/vim'
 Plug 'gruvbox-community/gruvbox'
 Plug 'sainnhe/gruvbox-material'
 Plug 'phanviet/vim-monokai-pro'
@@ -75,7 +76,7 @@ let g:vim_be_good_floating = 1
 " --- ctrlp
 "let g:ctrlp_map = '<c-p>'
 "let g:ctrlp_cmd = 'CtrlP'
-set wildignore+=*/tmp/*,*.so,*\\tmp\\*,*.swp,*.zip,*.exe
+set wildignore+=*/tmp/*,*.so,*\\tmp\\*,*.swp,*.zip,*.exe,tags
 
 " --- vim go (polyglot) settings.
 let g:go_highlight_build_constraints = 1
@@ -108,7 +109,8 @@ let g:autopep8_disable_show_diff=1
 let g:netrw_liststyle=3
 let g:netrw_altv = 1
 
-colorscheme gruvbox
+" colorscheme gruvbox
+colorscheme dracula
 set background=dark
 
 if executable('rg')
@@ -132,7 +134,9 @@ nnoremap <leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
 nnoremap <Leader>ps :Rg<SPACE>
 nnoremap <C-p> :GFiles<CR>
 nnoremap <Leader>pf :Files<CR>
-"nnoremap <Leader><CR> :so ~/.config/nvim/init.vim<CR>
+
+" nnoremap <Leader><CR> :so ~/.config/nvim/init.vim<CR>
+
 nnoremap <Leader><CR> :so ~/.vimrc<CR>
 nnoremap <Leader>+ :vertical resize +5<CR>
 nnoremap <Leader>- :vertical resize -5<CR>
@@ -142,17 +146,19 @@ vnoremap K :m '<-2<CR>gv=gv
 nmap <F9> :Tlist<CR>
 nmap <silent> <F9> :Rgrep<CR>
 nnoremap <F5> :!ctags -R --exclude=oe-logs --exclude=oe-workdir<CR>
-nnoremap <F6> :!set tags=./tags,tags<CR>
+nnoremap <F6> :!set tags=./tags<CR>
 noremap y "+y
 noremap yy "+yy
 noremap Y "+y$
 noremap x "+x
 noremap D "+D
-noremap dd "+ dd
+noremap dd "+dd
 nmap <leader>q :q<CR>
 nmap <leader>w :w<CR>
-"map! ii <ESC>
+"
 inoremap ii <esc>
+map! ii <ESC>
+vnoremap ii <esc>
 
 autocmd Filetype cpp setlocal expandtab tabstop=4 shiftwidth=4
 autocmd Filetype python setlocal expandtab tabstop=4 shiftwidth=4
@@ -160,7 +166,8 @@ autocmd FileType python noremap <buffer> <F8> :call Autopep8()<CR>
 autocmd FileType python set equalprg=autopep8\ -
 
 set tags=/home/jungyongchoi/oe-server2/code_gld4tv/audiod-pro/tags,/home/jungyongchoi/oe-server2/code_jcl4tv/audiod-pro/tags,/home/jungyongchoi/oe-server2/code_jcl4tv/audiooutputd-pro/tags,/home/jungyongchoi/oe-server2/code_jcl4tv/umi-pro/tags,/home/jungyongchoi/oe-server2/code_jcl4tv/legacy-broadcast/tags,/home/jungyongchoi/unittest/tags,/home/jungyongchoi/oe-server2/code_jcl4tv/arccontroller/tags
-
+" set tags+=/home/jungyongchoi/oe-server2/code_jcl4tv/**/tags
+" set tags+=/home/jungyongchoi/oe-server2/meta-lg-webos/automation_ccc/tags
 " Vim with me
 nnoremap <leader>vwm :colorscheme gruvbox<bar>:set background=dark<CR>
 nmap <leader>vtm :highlight Pmenu ctermbg=gray guibg=gray
@@ -210,7 +217,7 @@ set clipboard=unnamedplus
 set relativenumber
 
 autocmd BufWritePre <buffer> %s/\s\+$//e
-"gnome
+" ---- gnome
 if has("autocmd")
   au VimEnter,InsertLeave * silent execute '!echo -ne "\e[2 q"' | redraw!
   au InsertEnter,InsertChange *
@@ -221,7 +228,6 @@ if has("autocmd")
     \ endif
   au VimLeave * silent execute '!echo -ne "\e[ q"' | redraw!
 endif
-"iterm2 macos
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 let &t_SR = "\<Esc>]50;CursorShape=2\x7"
 let &t_EI = "\<Esc>]50;CursorShape=0\x7"
