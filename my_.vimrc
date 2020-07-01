@@ -21,8 +21,9 @@ set incsearch
 set termguicolors
 set scrolloff=8
 set ignorecase
-set spell
-set spelllang=en_us
+set mouse=a
+" set spell
+" set spelllang=en_us
 set backspace=indent,eol,start
 set t_Co=256
 
@@ -55,6 +56,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'dracula/vim'
 Plug 'gruvbox-community/gruvbox'
 Plug 'sainnhe/gruvbox-material'
+"Plug 'morhetz/gruvbox'
 Plug 'phanviet/vim-monokai-pro'
 Plug 'vim-airline/vim-airline'
 Plug 'flazz/vim-colorschemes'
@@ -76,7 +78,9 @@ let g:vim_be_good_floating = 1
 " --- ctrlp
 "let g:ctrlp_map = '<c-p>'
 "let g:ctrlp_cmd = 'CtrlP'
-set wildignore+=*/tmp/*,*.so,*\\tmp\\*,*.swp,*.zip,*.exe,tags
+""*/tags,**/tags"
+set wildignore+=*/tmp/*,*.so,*\\tmp\\*,*.swp,*.zip,*.exe
+set wildignore+=build*/**,oe*/**,*env*/**,tags
 
 " --- vim go (polyglot) settings.
 let g:go_highlight_build_constraints = 1
@@ -109,12 +113,14 @@ let g:autopep8_disable_show_diff=1
 let g:netrw_liststyle=3
 let g:netrw_altv = 1
 
-" colorscheme gruvbox
-colorscheme dracula
+colorscheme gruvbox
+" colorscheme dracula
 set background=dark
 
 if executable('rg')
-let g:rg_derive_root='true'
+    set grepprg=rg\ --vimgrep\ --no-heading
+    set grepformat=%f:%l:%c:%m,%f:%l:%m
+    let g:rg_derive_root='true'
 endif
 
 let loaded_matchparen = 1
@@ -131,7 +137,7 @@ nnoremap <leader>k :wincmd k<CR>
 nnoremap <leader>l :wincmd l<CR>
 nnoremap <leader>u :UndotreeShow<CR>
 nnoremap <leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
-nnoremap <Leader>ps :Rg<SPACE>
+nnoremap <Leader>ps :Rg!<SPACE>
 nnoremap <C-p> :GFiles<CR>
 nnoremap <Leader>pf :Files<CR>
 
@@ -146,19 +152,11 @@ vnoremap K :m '<-2<CR>gv=gv
 nmap <F9> :Tlist<CR>
 nmap <silent> <F9> :Rgrep<CR>
 nnoremap <F5> :!ctags -R --exclude=oe-logs --exclude=oe-workdir<CR>
-nnoremap <F6> :!set tags=./tags<CR>
-noremap y "+y
-noremap yy "+yy
-noremap Y "+y$
-noremap x "+x
-noremap D "+D
-noremap dd "+dd
+nnoremap <F6> :set tags=$PWD/tags<CR>
+nnoremap <F3> :vimgrep /<C-r><C-w>/gj **/*<CR>
 nmap <leader>q :q<CR>
 nmap <leader>w :w<CR>
 "
-inoremap ii <esc>
-map! ii <ESC>
-vnoremap ii <esc>
 
 autocmd Filetype cpp setlocal expandtab tabstop=4 shiftwidth=4
 autocmd Filetype python setlocal expandtab tabstop=4 shiftwidth=4
@@ -169,8 +167,8 @@ set tags=/home/jungyongchoi/oe-server2/code_gld4tv/audiod-pro/tags,/home/jungyon
 " set tags+=/home/jungyongchoi/oe-server2/code_jcl4tv/**/tags
 " set tags+=/home/jungyongchoi/oe-server2/meta-lg-webos/automation_ccc/tags
 " Vim with me
-nnoremap <leader>vwm :colorscheme gruvbox<bar>:set background=dark<CR>
-nmap <leader>vtm :highlight Pmenu ctermbg=gray guibg=gray
+" nnoremap <leader>vwm :colorscheme gruvbox<bar>:set background=dark<CR>
+" nmap <leader>vtm :highlight Pmenu ctermbg=gray guibg=gray
 
 vnoremap X "_d
 inoremap <C-c> <esc>
@@ -206,17 +204,21 @@ nmap <leader>gu :diffget //2<CR>
 nmap <leader>gs :G<CR>
 
 fun! TrimWhitespace()
-	let l:save =
-	winsaveview()
-	keeppatterns
-	%s/\s\+$//e
+	let l:save = winsaveview()
+	keeppatterns %s/\s\+$//e
 	call winrestview(l:save)
 endfun
 
+noremap y "+y
+noremap yy "+yy
+noremap Y "+y$
+noremap x "+x
+noremap D "+D
+noremap dd "+dd
 set clipboard=unnamedplus
 set relativenumber
 
-autocmd BufWritePre <buffer> %s/\s\+$//e
+" autocmd BufWritePre <buffer> %s/\s\+$//e
 " ---- gnome
 if has("autocmd")
   au VimEnter,InsertLeave * silent execute '!echo -ne "\e[2 q"' | redraw!
@@ -231,5 +233,11 @@ endif
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 let &t_SR = "\<Esc>]50;CursorShape=2\x7"
 let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-"autocmd BufWritePre * :call TrimWhitespace()
+command! -bang -nargs=* Rg
+      \ call fzf#vim#grep(
+      \   'rg --column --line-number --no-heading --color=always --ignore-case '.shellescape(<q-args>), 1,
+      \   <bang>0 ? fzf#vim#with_preview('up:60%')
+      \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+      \   <bang>0)
+autocmd BufWritePre * :call TrimWhitespace()
 "autocmd BufWritePre * :call system("ctags -R")
