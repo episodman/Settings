@@ -57,7 +57,8 @@ Plug 'dracula/vim'
 Plug 'gruvbox-community/gruvbox'
 Plug 'sainnhe/gruvbox-material'
 "Plug 'morhetz/gruvbox'
-Plug 'phanviet/vim-monokai-pro'
+Plug 'crusoexia/vim-monokai'
+" Plug 'phanviet/vim-monokai-pro'
 Plug 'vim-airline/vim-airline'
 Plug 'flazz/vim-colorschemes'
 Plug '/home/mpaulson/personal/vim-be-good'
@@ -67,10 +68,18 @@ Plug 'tell-k/vim-autopep8'
 Plug 'dart-lang/dart-vim-plugin'
 Plug 'preservim/nerdcommenter'
 Plug 'tpope/vim-surround'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
+"Plug 'istib/vifm.vim'
+
 call plug#end()
 
 let g:coc_node_path = '/usr/bin/nodejs'
 let g:gruvbox_contrast_dark = 'hard'
+if exists('+termguicolors')
+    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+endif
+let g:gruvbox_invert_selection='0'
 
 " --- The Greatest plugin of all time.  I am not bias
 let g:vim_be_good_floating = 1
@@ -114,7 +123,8 @@ let g:netrw_liststyle=3
 let g:netrw_altv = 1
 
 colorscheme gruvbox
-" colorscheme dracula
+"colorscheme dracula
+" colorscheme monokai
 set background=dark
 
 if executable('rg')
@@ -131,6 +141,9 @@ let g:vrfr_rg = 'true'
 let g:netrw_banner = 0
 let g:netrw_winsize = 25
 
+nnoremap <leader>prw :CocSearch <C-R>=expand("<cword>")<CR><CR>
+nnoremap <leader>pw :Rg <C-R>=expand("<cword>")<CR><CR>
+nnoremap <leader>phw :h <C-R>=expand("<cword>")<CR><CR>
 nnoremap <leader>h :wincmd h<CR>
 nnoremap <leader>j :wincmd j<CR>
 nnoremap <leader>k :wincmd k<CR>
@@ -160,8 +173,8 @@ nmap <leader>w :w<CR>
 
 autocmd Filetype cpp setlocal expandtab tabstop=4 shiftwidth=4
 autocmd Filetype python setlocal expandtab tabstop=4 shiftwidth=4
-autocmd FileType python noremap <buffer> <F8> :call Autopep8()<CR>
-autocmd FileType python set equalprg=autopep8\ -
+"autocmd FileType python noremap <buffer> <F8> :call Autopep8()<CR>
+"autocmd FileType python set equalprg=autopep8\ -
 
 set tags=/home/jungyongchoi/oe-server2/code_gld4tv/audiod-pro/tags,/home/jungyongchoi/oe-server2/code_jcl4tv/audiod-pro/tags,/home/jungyongchoi/oe-server2/code_jcl4tv/audiooutputd-pro/tags,/home/jungyongchoi/oe-server2/code_jcl4tv/umi-pro/tags,/home/jungyongchoi/oe-server2/code_jcl4tv/legacy-broadcast/tags,/home/jungyongchoi/unittest/tags,/home/jungyongchoi/oe-server2/code_jcl4tv/arccontroller/tags
 " set tags+=/home/jungyongchoi/oe-server2/code_jcl4tv/**/tags
@@ -209,12 +222,13 @@ fun! TrimWhitespace()
 	call winrestview(l:save)
 endfun
 
-noremap y "+y
-noremap yy "+yy
-noremap Y "+y$
-noremap x "+x
-noremap D "+D
-noremap dd "+dd
+" noremap <C-c> "+y
+"noremap yy "+yy
+"noremap y "+y
+"noremap Y "+y$
+"noremap x "+x
+"noremap D "+D
+"noremap dd "+dd
 set clipboard=unnamedplus
 set relativenumber
 
@@ -240,4 +254,5 @@ command! -bang -nargs=* Rg
       \           : fzf#vim#with_preview('right:50%:hidden', '?'),
       \   <bang>0)
 autocmd BufWritePre * :call TrimWhitespace()
+autocmd BufNewFile,BufFilePre,BufRead *.md set filetype=markdown
 "autocmd BufWritePre * :call system("ctags -R")
