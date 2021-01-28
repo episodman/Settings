@@ -1,30 +1,113 @@
 {
-    // "editor.fontFamily": "IBM Plex Mono",
-    "editor.fontFamily": "Operator Mono Lig",
-    // "editor.fontFamily": "Fira Code",
-    // "editor.fontFamily": "Fira Code",
-    // "editor.fontFamily": "Jetbrains Mono",
-    // "editor.fontFamily": "Hack",
-    // "editor.fontFamily": "Monaco",
-    // "editor.fontFamily": "Cascadia Code",
-    // "editor.fontFamily": "D2coding Ligature",
-    "editor.fontSize": 17,
-    "editor.fontWeight": "100",
-    "terminal.integrated.drawBoldTextInBrightColors": true,
-    "terminal.integrated.fontWeight": "normal",
-    "editor.suggestSelection": "first",
-    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
-    "python.jediEnabled": false,
+    "C_Cpp.updateChannel": "Insiders",
+    "[markdown]": {
+        "editor.defaultFormatter": "yzhang.markdown-all-in-one"
+    },
+    "[python]": {
+        "editor.formatOnSave": true
+    },
     "debug.console.fontSize": 15,
-    "terminal.integrated.fontSize": 16,
-    "workbench.iconTheme": "eq-material-theme-icons",
-    "workbench.settings.editor": "json",
-    "workbench.settings.useSplitJSON": true,
-    "workbench.settings.openDefaultSettings": true,
-    "editor.formatOnSave": true,
-    "python.formatting.provider": "black",
+    "editor.codeLens": false,
+    "editor.fontFamily": "MesloLGM NF",
     "editor.fontLigatures": true,
-    "python.pythonPath": "/usr/local/bin/python3",
-    "workbench.colorTheme": "Gruvbox Material Dark",
-    "C_Cpp.updateChannel": "Insiders"
+    "editor.fontSize": 15,
+    "editor.fontWeight": "normal",
+    "editor.formatOnSave": false,
+    "editor.occurrencesHighlight": false,
+    "editor.renderLineHighlight": "all",
+    "editor.renderWhitespace": "all",
+    "editor.selectionHighlight": false,
+    "files.watcherExclude": {
+        "**/*.patch": true,
+        "**/*.pcm": true,
+        "**/.git/objects/**": true,
+        "**/.git/subtree-cache/**": true,
+        "**/.vscode": true,
+        "**/env": true,
+        "**/node_modules/**": true,
+        "**/tags": true
+    },
+    "highlightSelections.borderColor": "red",
+    "problems.decorations.enabled": false,
+    "python.formatting.provider": "autopep8",
+    "python.pythonPath": "/usr/bin/python",
+    "search.exclude": {
+        "**/*.code-search": true,
+        "**/*.patch": true,
+        "**/*.pcm": true,
+        "**/.vscode": true,
+        "**/bower_components": true,
+        "**/env": true,
+        "**/node_modules": true,
+        "**/tags": true
+    },
+    "terminal.integrated.fontSize": 15,
+    "terminal.integrated.fontWeight": "normal",
+    "trailing-spaces.trimOnSave": true,
+    "vim.leader": "<space>",
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "after": [
+                "<C-w>",
+                "h"
+            ],
+            "before": [
+                "<Leader>",
+                "h"
+            ]
+        },
+        {
+            "after": [
+                "<C-w>",
+                "j"
+            ],
+            "before": [
+                "<Leader>",
+                "j"
+            ]
+        },
+        {
+            "after": [
+                "<C-w>",
+                "k"
+            ],
+            "before": [
+                "<Leader>",
+                "k"
+            ]
+        },
+        {
+            "after": [
+                "<C-w>",
+                "l"
+            ],
+            "before": [
+                "<Leader>",
+                "l"
+            ]
+        },
+        {
+            "before": [
+                "leader",
+                "w"
+            ],
+            "commands": [
+                "workbench.action.files.save"
+            ]
+        }
+    ],
+    "vim.useSystemClipboard": true,
+    "window.zoomLevel": 0,
+    "workbench.colorCustomizations": {
+        "editor.lineHighlightBorder": "#4d08ee",
+        "statusBar.background": "#94379c",
+        "statusBar.debuggingBackground": "#ddda1f",
+        "statusBar.foreground": "#ffffff",
+        "statusBar.noFolderBackground": "#c1da37"
+    },
+    "workbench.colorTheme": "One Dark Pro",
+    "workbench.iconTheme": "ayu",
+    "workbench.settings.editor": "json",
+    "workbench.settings.openDefaultSettings": true,
+    "workbench.settings.useSplitJSON": true
 }

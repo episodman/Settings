@@ -333,7 +333,8 @@ if has('autocmd')
     augroup END
 endif
 
-autocmd BufWritePre *.json :%!python -m json.tool
+"autocmd BufWritePre *.json :%!python -m json.tool
+"autocmd FileType json BufWritePre *.json :%!python -m json.tool
 
 autocmd FileType python noremap <buffer> <F8> :call Autopep8()<CR>
 autocmd BufWritePre * :call TrimWhitespace()

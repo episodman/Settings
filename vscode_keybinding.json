@@ -1,0 +1,51 @@
+[
+    {
+        "command": "workbench.action.closePanel",
+        "key": "ctrl+f8"
+    },
+    {
+        "command": "workbench.action.togglePanel",
+        "key": "ctrl+j"
+    },
+    {
+        "command": "workbench.action.togglePanel",
+        "key": "ctrl+j"
+    },
+    {
+        "command": "workbench.action.closeSidebar",
+        "key": "ctrl+f8"
+    },
+    {
+        "command": "workbench.action.toggleSidebarVisibility",
+        "key": "ctrl+f8"
+    },
+    {
+        "command": "-workbench.action.toggleSidebarVisibility",
+        "key": "ctrl+b"
+    },
+    {
+        "command": "selectNextQuickFix",
+        "key": "ctrl+n",
+        "when": "editorFocus && quickFixWidgetVisible"
+    },
+    {
+        "command": "selectPrevQuickFix",
+        "key": "ctrl+p",
+        "when": "editorFocus && quickFixWidgetVisible"
+    },
+    {
+        "command": "selectNextSuggestion",
+        "key": "ctrl+n",
+        "when": "editorTextFocus && suggestWidgetMultipleSuggestions && suggestWidgetVisible"
+    },
+    {
+        "command": "selectPrevSuggestion",
+        "key": "ctrl+p",
+        "when": "editorTextFocus && suggestWidgetMultipleSuggestions && suggestWidgetVisible"
+    },
+    {
+        "command": "acceptSelectedSuggestion",
+        "key": "ctrl+y",
+        "when": "suggestWidgetVisible && textInputFocus"
+    }
+]
