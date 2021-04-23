@@ -26,6 +26,7 @@ set ignorecase
 " set spelllang=en_us
 set backspace=indent,eol,start
 set t_Co=256
+"set t_Co=16
 set nowrap
 " set ttimeoutlen=0
 
@@ -44,7 +45,9 @@ set shortmess+=c
 set colorcolumn=80
 highlight ColorColumn ctermbg=0 guibg=darkgrey
 autocmd ColorScheme * highlight LineNr  ctermfg=Yellow guifg=Yellow " Override LineNr
+"autocmd ColorScheme * highlight LineNr  ctermfg=Black guifg=Black " Override LineNr
 autocmd ColorScheme * highlight CursorLineNr  ctermfg=White guifg=White " Override CursorLineNr
+"autocmd ColorScheme * highlight CursorLineNr  ctermfg=Blue guifg=Blue " Override CursorLineNr
 autocmd ColorScheme * highlight Comment cterm=italic gui=italic
 
 "call plug#begin('~/.vim/plugged')
@@ -54,7 +57,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
-Plug 'pwntester/octo.nvim'
+"Plug 'pwntester/octo.nvim'
 Plug 'junegunn/vim-easy-align'
 Plug 'nvim-lua/completion-nvim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -175,6 +178,7 @@ colorscheme one
 "colorscheme dracula
 " colorscheme monokai
 set background=dark
+"set background=light
 let g:one_termcolors=16
 let g:one_term_italic=1
 let g:one_allow_italics = 1
@@ -185,8 +189,9 @@ let g:desert256_term_italic=0
 let g:solarized_termcolors=256
 let g:solarized_term_italic=1
 let g:dracula_termcolors=256
-let g:dracula_term_italic=0
-let g:gruvbox_termcolors=256
+let g:dracula_term_italic=1
+let g:dracula_allow_italics = 1
+let g:gruvbox_termcolors=16
 let g:gruvbox_term_italic=1
 let g:gruvbox_allow_italics = 1
 let g:onedark_termcolors=256
@@ -213,14 +218,33 @@ let g:vrfr_rg = 'true'
 let g:netrw_banner = 0
 let g:netrw_winsize = 25
 
-"let $FZF_DEFAULT_OPTS = '--reverse'
-let $FZF_DEFAULT_OPTS='
-            \ --reverse
-            \ --color=fg:#2e3436,bg:#eeeeec,hl:#fcaf3e
-            \ --color=fg+:#ffffff,bg+:#8ae234,hl+:#f57900
-            \ --color=info:#afaf87,prompt:#d7005f,pointer:#cc0000
-            \ --color=marker:#ef2929,spinner:#af5fff,header:#729fcf'
-"let g:fzf_layout = {'window': { 'width': 0.8, 'height': 0.8}}
+let $FZF_DEFAULT_OPTS = '--reverse'
+"let $FZF_DEFAULT_OPTS='
+            "\ --reverse
+            "\ --color=fg:#2e3436,bg:#eeeeec,hl:#fcaf3e
+            "\ --color=fg:#2e3436,bg:#c9c9c3,hl:#fcaf3e
+            "\ --color=fg:#babab6,bg:#808073,hl:#c98c22
+            "\ --color=fg+:#ffffff,bg+:#8ae234,hl+:#f57900
+            "\ --color=info:#afaf87,prompt:#d7005f,pointer:#cc0000
+            "\ --color=info:#afaf87,prompt:#d7005f,pointer:#cc0000cc0000
+            "\ --color=marker:#ef2929,spinner:#af5fff,header:#729fcf'
+            "\ --color=marker:#f58282,spinner:#af5fff,header:#729fcf'
+
+let g:fzf_layout = {'window': { 'width': 0.8, 'height': 0.8}}
+"" Customize fzf colors to match your color scheme
+"let g:fzf_colors =
+"\ { 'fg':      ['fg', 'Normal'],
+"\ 'bg':      ['bg', 'Normal'],
+"\ 'hl':      ['fg', 'Comment'],
+"\ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+"\ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+"\ 'hl+':     ['fg', 'Statement'],
+"\ 'info':    ['fg', 'PreProc'],
+"\ 'prompt':  ['fg', 'Conditional'],
+"\ 'pointer': ['fg', 'Exception'],
+"\ 'marker':  ['fg', 'Keyword'],
+"\ 'spinner': ['fg', 'Label'],
+"\ 'header':  ['fg', 'Comment'] }
 
 nnoremap <leader>prw :CocSearch <C-R>=expand("<cword>")<CR><CR>
 nnoremap <leader>pw :Rg <C-R>=expand("<cword>")<CR><CR>
@@ -348,6 +372,15 @@ let &t_EI = "\<Esc>]50;CursorShape=0\x7"
       "\   <bang>0 ? fzf#vim#with_preview('up:60%')
       "\           : fzf#vim#with_preview('right:50%:hidden', '?'),
       "\   <bang>0)
+command! -bang -nargs=* Rg
+   \ call fzf#vim#grep('rg --smart-case --line-number --no-heading
+   \  --color=always --colors "path:fg:93,169,245" --colors
+   \  "line:fg:128,128,128" --colors "match:fg:195,232,141" --no-hidden
+   \  --ignore-case '.shellescape(<q-args>),
+   \ 0,
+   \ fzf#vim#with_preview({'options': '-e --delimiter : --nth 3..'}),
+   \ <bang>0)
+"
 if has('autocmd')
     augroup coloroverride
         autocmd!
