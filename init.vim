@@ -49,7 +49,6 @@ autocmd ColorScheme * highlight LineNr  ctermfg=Yellow guifg=Yellow " Override L
 autocmd ColorScheme * highlight CursorLineNr  ctermfg=White guifg=White " Override CursorLineNr
 "autocmd ColorScheme * highlight CursorLineNr  ctermfg=Blue guifg=Blue " Override CursorLineNr
 autocmd ColorScheme * highlight Comment cterm=italic gui=italic
-
 "call plug#begin('~/.vim/plugged')
 call plug#begin('~/.local/share/nvim/plugged')
 
@@ -72,6 +71,8 @@ Plug 'junegunn/fzf.vim'
 "  I AM SO SORRY FOR DOING COLOR SCHEMES IN MY VIMRC, BUT I HAVE
 "  TOOOOOOOOOOOOO
 "
+"
+Plug 'habamax/vim-polar'
 Plug 'joshdick/onedark.vim'
 Plug 'fratajczak/one-monokai-vim'
 Plug 'ayu-theme/ayu-vim'
@@ -82,6 +83,8 @@ Plug 'gruvbox-community/gruvbox'
 Plug 'sainnhe/gruvbox-material'
 Plug 'altercation/vim-colors-solarized'
 Plug 'NLKNguyen/papercolor-theme'
+Plug 'herrbischoff/cobalt2.vim'
+Plug 'kaicataldo/material.vim', { 'branch': 'main' }
 "Plug 'morhetz/gruvbox'
 " Plug 'crusoexia/vim-monokai'
 " Plug 'phanviet/vim-monokai-pro'
@@ -102,12 +105,15 @@ Plug 'iamcco/markdown-preview.vim'
 Plug 'iamcco/mathjax-support-for-mkdp'
 Plug 'justinmk/vim-sneak'
 Plug 'tpope/vim-commentary'
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
 
 "Plug 'istib/vifm.vim'
 call plug#end()
 
 let g:coc_node_path = "/usr/bin/nodejs"
-let g:gruvbox_contrast_dark = 'soft'
+" let g:gruvbox_contrast_dark = 'soft'
+let g:gruvbox_contrast_light= 'hard'
 if exists('+termguicolors')
     let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
@@ -166,10 +172,48 @@ let g:indentLine_first_char = ''
 let g:indentLine_showFirstIndentLevel = 1
 let g:indentLine_setColors = 0
 " }}
-"colorscheme gruvbox
+" colorscheme gruvbox
 "colorscheme PaperColor
-"colorscheme onedark
-colorscheme one
+" colorscheme cobalt2
+colorscheme material
+" For Neovim 0.1.3 and 0.1.4 - https://github.com/neovim/neovim/pull/2198
+if (has('nvim'))
+  let $NVIM_TUI_ENABLE_TRUE_COLOR = 1
+endif
+
+" For Neovim > 0.1.5 and Vim > patch 7.4.1799 - https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162
+" Based on Vim patch 7.4.1770 (`guicolors` option) - https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd
+" https://github.com/neovim/neovim/wiki/Following-HEAD#20160511
+if (has('termguicolors'))
+  set termguicolors
+endif
+"
+" colorscheme onedark
+" if (has("autocmd"))
+"   augroup colorextend
+"     autocmd!
+"     " Make `Function`s bold in GUI mode
+"     autocmd ColorScheme * call onedark#extend_highlight("Function", { "gui": "bold" })
+"     " Override the `Statement` foreground color in 256-color mode
+"     autocmd ColorScheme * call onedark#extend_highlight("Statement", { "fg": { "cterm": 128 } })
+"     " Override the `Identifier` background color in GUI mode
+"     autocmd ColorScheme * call onedark#extend_highlight("Identifier", { "bg": { "gui": "#333333" } })
+"   augroup END
+" endif
+
+if (has("autocmd") && !has("gui_running"))
+  augroup colorset
+    autocmd!
+    let s:white = { "gui": "#ABB2BF", "cterm": "145", "cterm16" : "7" }
+    autocmd ColorScheme * call onedark#set_highlight("Normal", { "fg": s:white }) " `bg` will not be styled since there is no `bg` setting
+  augroup END
+endif
+
+augroup colorscheme_change | au!
+    au ColorScheme polar hi Comment gui=italic cterm=italic
+augroup END
+" colorscheme one
+" colorscheme polar
 "colorscheme molokai
 "colorscheme one-monokai
 "colorscheme palenight
@@ -178,7 +222,7 @@ colorscheme one
 "colorscheme dracula
 " colorscheme monokai
 set background=dark
-"set background=light
+" set background=light
 let g:one_termcolors=16
 let g:one_term_italic=1
 let g:one_allow_italics = 1
@@ -399,6 +443,8 @@ endif
 "autocmd FileType json BufWritePre *.json :%!python -m json.tool
 
 autocmd FileType python noremap <buffer> <F8> :call Autopep8()<CR>
+autocmd FileType cpp setlocal commentstring=//\ %s
+
 autocmd BufWritePre * :call TrimWhitespace()
 "autocmd BufWritePre * :%s///e
 autocmd BufNewFile,BufFilePre,BufRead *.md set filetype=markdown
