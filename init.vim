@@ -55,7 +55,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 "Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
+" Plug 'nvim-telescope/telescope.nvim'
 "Plug 'pwntester/octo.nvim'
 Plug 'junegunn/vim-easy-align'
 Plug 'nvim-lua/completion-nvim'
@@ -72,6 +72,7 @@ Plug 'junegunn/fzf.vim'
 "  TOOOOOOOOOOOOO
 "
 "
+Plug 'arcticicestudio/nord-vim'
 Plug 'habamax/vim-polar'
 Plug 'joshdick/onedark.vim'
 Plug 'fratajczak/one-monokai-vim'
@@ -79,13 +80,14 @@ Plug 'ayu-theme/ayu-vim'
 Plug 'drewtempelmeyer/palenight.vim'
 Plug 'dracula/vim'
 Plug 'tomasr/molokai'
-Plug 'gruvbox-community/gruvbox'
-Plug 'sainnhe/gruvbox-material'
+Plug 'kristijanhusak/vim-hybrid-material'
+" Plug 'gruvbox-community/gruvbox'
+" Plug 'sainnhe/gruvbox-material'
 Plug 'altercation/vim-colors-solarized'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'herrbischoff/cobalt2.vim'
 Plug 'kaicataldo/material.vim', { 'branch': 'main' }
-"Plug 'morhetz/gruvbox'
+Plug 'morhetz/gruvbox'
 " Plug 'crusoexia/vim-monokai'
 " Plug 'phanviet/vim-monokai-pro'
 Plug 'vim-airline/vim-airline'
@@ -111,7 +113,7 @@ Plug 'plasticboy/vim-markdown'
 "Plug 'istib/vifm.vim'
 call plug#end()
 
-let g:coc_node_path = "/usr/bin/nodejs"
+let g:coc_node_path = '/usr/bin/nodejs'
 " let g:gruvbox_contrast_dark = 'soft'
 let g:gruvbox_contrast_light= 'hard'
 if exists('+termguicolors')
@@ -172,10 +174,12 @@ let g:indentLine_first_char = ''
 let g:indentLine_showFirstIndentLevel = 1
 let g:indentLine_setColors = 0
 " }}
+colorscheme hybrid_material
 " colorscheme gruvbox
+" colorscheme nord
 "colorscheme PaperColor
 " colorscheme cobalt2
-colorscheme material
+" colorscheme material
 " For Neovim 0.1.3 and 0.1.4 - https://github.com/neovim/neovim/pull/2198
 if (has('nvim'))
   let $NVIM_TUI_ENABLE_TRUE_COLOR = 1
@@ -201,25 +205,25 @@ endif
 "   augroup END
 " endif
 
-if (has("autocmd") && !has("gui_running"))
-  augroup colorset
-    autocmd!
-    let s:white = { "gui": "#ABB2BF", "cterm": "145", "cterm16" : "7" }
-    autocmd ColorScheme * call onedark#set_highlight("Normal", { "fg": s:white }) " `bg` will not be styled since there is no `bg` setting
-  augroup END
-endif
+" if (has("autocmd") && !has("gui_running"))
+"   augroup colorset
+"     autocmd!
+"     let s:white = { "gui": "#ABB2BF", "cterm": "145", "cterm16" : "7" }
+"     autocmd ColorScheme * call onedark#set_highlight("Normal", { "fg": s:white }) " `bg` will not be styled since there is no `bg` setting
+"   augroup END
+" endif
 
 augroup colorscheme_change | au!
     au ColorScheme polar hi Comment gui=italic cterm=italic
 augroup END
 " colorscheme one
 " colorscheme polar
-"colorscheme molokai
+" colorscheme molokai
 "colorscheme one-monokai
 "colorscheme palenight
 "colorscheme solarized
 "colorscheme desert256
-"colorscheme dracula
+" colorscheme dracula
 " colorscheme monokai
 set background=dark
 " set background=light
