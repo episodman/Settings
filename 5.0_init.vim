@@ -54,7 +54,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 
 "Plug 'pwntester/octo.nvim'
 Plug 'junegunn/vim-easy-align'
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'tweekmonster/gofmt.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-utils/vim-man'
@@ -62,11 +62,13 @@ Plug 'mbbill/undotree'
 Plug 'sheerun/vim-polyglot'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+" Plug 'sharkdp/bat'
 
 "  I AM SO SORRY FOR DOING COLOR SCHEMES IN MY VIMRC, BUT I HAVE
 "  TOOOOOOOOOOOOO
 "
 " Theme
+Plug 'ackyshake/Spacegray.vim'
 Plug 'ghifarit53/tokyonight-vim'
 Plug 'arcticicestudio/nord-vim'
 Plug 'habamax/vim-polar'
@@ -110,25 +112,27 @@ Plug 'plasticboy/vim-markdown'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'ryanoasis/vim-devicons'
 Plug 'Yggdroot/indentLine'
+Plug 'blueyed/vim-diminactive'
 "Plug 'istib/vifm.vim'
 "
 "
 "5.0
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'neovim/nvim-lspconfig'
-Plug 'kabouzeid/nvim-lspinstall'
+" Plug 'neovim/nvim-lspconfig'
+" Plug 'kabouzeid/nvim-lspinstall'
 Plug 'nvim-lua/completion-nvim'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
-Plug 'nvim-telescope/telescope-fzy-native.nvim'
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 Plug 'nvim-treesitter/playground'
 Plug 'glepnir/galaxyline.nvim'
 call plug#end()
 
 let g:coc_node_path = '/usr/bin/nodejs'
 " let g:gruvbox_contrast_dark = 'soft'
-let g:gruvbox_contrast_light= 'hard'
+let g:gruvbox_contrast_dark = 'hard'
+" let g:gruvbox_contrast_light= 'hard'
 if exists('+termguicolors')
     let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
@@ -139,8 +143,6 @@ let g:gruvbox_invert_selection='0'
 let g:vim_be_good_floating = 1
 
 " --- ctrlp
-"let g:ctrlp_map = '<c-p>'
-"let g:ctrlp_cmd = 'CtrlP' ""*/tags,**/tags"
 set wildignore+=*/tmp/*,*.so,*\\tmp\\*,*.swp,*.zip,*.exe
 set wildignore+=build*/**,oe*/**,*env*/**,env/**,venv3/**,env/*,venv3/*,tags
 
@@ -178,7 +180,7 @@ let g:netrw_liststyle=3
 let g:netrw_altv = 1
 let g:tokyonight_style = 'night' " available: night, storm
 let g:tokyonight_enable_italic = 1
-colorscheme tokyonight
+" colorscheme tokyonight
 "colorscheme embark
 "colorscheme ayu
 "set termguicolors     " enable true colors support
@@ -193,8 +195,15 @@ let g:indentLine_setColors = 0
 " }}
 " colorscheme hybrid_material
 let g:hybrid_material_enable_italic = 1
-" colorscheme gruvbox
-" colorscheme nord
+colorscheme gruvbox
+let g:gruvbox_enable_italic = 1
+
+
+let g:spacegray_underline_search = 1
+let g:spacegray_use_italics = 1
+" let g:spacegray_low_contrast = 1
+" colorscheme spacegray
+"yyp" colorscheme nord
 "colorscheme PaperColor
 " colorscheme cobalt2
 " colorscheme material
@@ -259,7 +268,7 @@ let g:solarized_term_italic=1
 let g:dracula_termcolors=256
 let g:dracula_term_italic=1
 let g:dracula_allow_italics = 1
-let g:gruvbox_termcolors=16
+let g:gruvbox_termcolors=256
 let g:gruvbox_term_italic=1
 let g:gruvbox_allow_italics = 1
 let g:onedark_termcolors=256
@@ -291,9 +300,14 @@ let g:netrw_winsize = 25
 let g:fzf_tags_command = 'ctags -R'
 " Border color
 let g:fzf_layout = {'up':'~90%', 'window': { 'width': 0.8, 'height': 0.8,'yoffset':0.5,'xoffset': 0.5, 'highlight': 'Todo', 'border': 'sharp' } }
-
-let $FZF_DEFAULT_OPTS = '--layout=reverse --info=inline'
+" let $FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --layout reverse --margin=1,4 --preview 'file {}'"
 let $FZF_DEFAULT_COMMAND="rg --files --hidden"
+
+" fzf --preview 'bat --color=always --style=numbers --line-range=:500 {}'
+" let $FZF_DEFAULT_OPTS = '--layout=reverse --info=inline'
+let $FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --layout reverse --margin=1,4 --preview 'bat --color=always --style=header,grid --line-range :300 {}'"
+" let $FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --layout reverse --margin=1,4"
+" --preview bat --color=always --style=numbers --line-range=:500 {}'
 " Customize fzf colors to match your color scheme
 " let g:fzf_colors =
 " \ { 'fg':      ['fg', 'Normal'],
@@ -338,7 +352,7 @@ command! -bang -nargs=* GGrep
   \   fzf#vim#with_preview({'dir': systemlist('git rev-parse --show-toplevel')[0]}), <bang>0)
 
 nnoremap <leader>prw :CocSearch <C-R>=expand("<cword>")<CR><CR>
-" nnoremap <leader>pw :Rg <C-R>=expand("<cword>")<CR><CR>
+nnoremap <leader>pw :Rg <C-R>=expand("<cword>")<CR><CR>
 nnoremap <leader>phw :h <C-R>=expand("<cword>")<CR><CR>
 nnoremap <leader>h :wincmd h<CR>
 nnoremap <leader>j :wincmd j<CR>
@@ -523,11 +537,10 @@ autocmd BufWritePost plugins.lua PackerCompile
 " nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
 " nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
 " nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
-nnoremap <C-p> <cmd>lua require('telescope.builtin').git_files()<cr>
 
 " Use completion-nvim in every buffer
 autocmd BufEnter * lua require'completion'.on_attach()
-
+let g:completion_enable_auto_popup = 1
 " Use <Tab> and <S-Tab> to navigate through popup menu
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
@@ -539,67 +552,67 @@ set completeopt=menuone,noinsert,noselect
 set shortmess+=c
 
 let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy', 'all']
+let g:completion_trigger_character = ['.', '::']
 
-let g:completion_matching_ignore_case = 1
-
+" let g:completion_matching_ignore_case = 1
 " -------------------- LSP ---------------------------------
-:lua << EOF
-  local nvim_lsp = require('lspconfig')
-
-  local on_attach = function(client, bufnr)
-    require('completion').on_attach()
-
-    local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-    local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-
-    buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-    -- Mappings
-    local opts = { noremap=true, silent=true }
-    buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-    buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-    buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-    buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-    buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-    buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-    buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-    buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-    buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-    buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-    buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-    buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-    buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-    buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-    buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-
-    -- Set some keybinds conditional on server capabilities
-    if client.resolved_capabilities.document_formatting then
-        buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-    elseif client.resolved_capabilities.document_range_formatting then
-        buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-    end
-
-    -- Set autocommands conditional on server_capabilities
-    if client.resolved_capabilities.document_highlight then
-        require('lspconfig').util.nvim_multiline_command [[
-        :hi LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
-        :hi LspReferenceText cterm=bold ctermbg=red guibg=LightYellow
-        :hi LspReferenceWrite cterm=bold ctermbg=red guibg=LightYellow
-        augroup lsp_document_highlight
-            autocmd!
-            autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-            autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-        augroup END
-        ]]
-    end
-  end
-
-  local servers = {'pyright', 'gopls', 'rust_analyzer', 'ccls'}
-  for _, lsp in ipairs(servers) do
-    nvim_lsp[lsp].setup {
-      on_attach = on_attach,
-    }
-  end
+lua << EOF
+--   local nvim_lsp = require('lspconfig')
+--
+--   local on_attach = function(client, bufnr)
+--     require('completion').on_attach()
+--
+--     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+--     local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+--
+--     buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+--
+--     -- Mappings
+--     local opts = { noremap=true, silent=true }
+--     buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+--     buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+--     buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+--     buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+--     buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+--     buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+--     buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+--     buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+--     buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+--     buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+--     buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+--     buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+--     buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+--     buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+--     buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+--
+--     -- Set some keybinds conditional on server capabilities
+--     if client.resolved_capabilities.document_formatting then
+--         buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+--     elseif client.resolved_capabilities.document_range_formatting then
+--         buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+--     end
+--
+--     -- Set autocommands conditional on server_capabilities
+--     if client.resolved_capabilities.document_highlight then
+--         require('lspconfig').util.nvim_multiline_command [[
+--         :hi LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
+--         :hi LspReferenceText cterm=bold ctermbg=red guibg=LightYellow
+--         :hi LspReferenceWrite cterm=bold ctermbg=red guibg=LightYellow
+--         augroup lsp_document_highlight
+--             autocmd!
+--             autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+--             autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+--         augroup END
+--         ]]
+--     end
+--   end
+--
+--   local servers = {'pyright', 'gopls', 'rust_analyzer', 'ccls'}
+--   for _, lsp in ipairs(servers) do
+--     nvim_lsp[lsp].setup {
+--       on_attach = on_attach,
+--     }
+--   end
 EOF
 
 " Completion
@@ -627,34 +640,73 @@ require "nvim-treesitter.configs".setup {
 }
 
 -- Telescope
-require('telescope').setup {
+-- require('telescope').setup {
+--   defaults = {
+--     mappings = {
+--       i = {
+--         ["<C-u>"] = false,
+--         ["<C-d>"] = false,
+--       },
+--     },
+--     generic_sorter =  require'telescope.sorters'.get_fzy_sorter,
+--     file_sorter =  require'telescope.sorters'.get_fzy_sorter,
+--   }
+-- }
+
+
+--         ["<C-w>"] = actions.send_selected_to_qflist,
+--         ["<C-u>"] = false,
+--         ["<C-d>"] = false,
+local actions = require('telescope.actions')
+require('telescope').setup{
   defaults = {
+    file_sorter = require('telescope.sorters').get_fzy_sorter,
+    prompt_prefix = '>',
+    color_devicons = ture,
+
+    file_previewer = require('telescope.previewers').vim_buffer_cat.new,
+    grep_previewer = require('telescope.previewers').vim_buffer_vimgrep.new,
+    qflist_previewer = require('telescope.previewers').vim_buffer_qflist.new,
+
     mappings = {
       i = {
-        ["<C-u>"] = false,
-        ["<C-d>"] = false,
+        ["<C-q>"] = actions.send_to_qflist,
+        ["<C-w>"] = actions.send_selected_to_qflist,
+        ["<C-x>"] = false,
+        ["<C-j>"] = actions.move_selection_next,
+        ["<C-k>"] = actions.move_selection_previous,
+        ["<C-u>"] = actions.preview_scrolling_up,
+        ["<C-d>"] = actions.preview_scrolling_down
       },
+      n = {
+        ["<C-q>"] = actions.send_to_qflist,
+        ["<C-w>"] = actions.send_selected_to_qflist,
+        ["<C-j>"] = actions.move_selection_next,
+        ["<C-k>"] = actions.move_selection_previous,
+        ["<C-x>"] = false,
+        ["<C-u>"] = actions.preview_scrolling_up,
+        ["<C-d>"] = actions.preview_scrolling_down
+      }
     },
     generic_sorter =  require'telescope.sorters'.get_fzy_sorter,
     file_sorter =  require'telescope.sorters'.get_fzy_sorter,
+  },
+  extensions = {
+      fzf = {
+        fuzzy = true,                    -- false will only do exact matching
+        override_generic_sorter = false, -- override the generic sorter
+        override_file_sorter = true,     -- override the file sorter
+        case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+                                     -- the default case_mode is "smart_case"
+      }
   }
 }
 
-require('telescope').setup {
-    extensions = {
-        fzy_native = {
-            override_generic_sorter = false,
-            override_file_sorter = true,
-        }
-    }
-}
-require('telescope').load_extension('fzy_native')
+require('telescope').load_extension('fzf')
 -- Add leader shortcuts
 vim.api.nvim_set_keymap('n', '<leader>pf', [[<cmd>lua require('telescope.builtin').find_files()<cr>]], { noremap = true, silent = true})
--- vim.api.nvim_set_keymap('n', '<les-p>', [[<cmd>lua require('telescope.builtin').find_files()<cr>]], { noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<C-p>', [[<cmd>lua require('telescope.builtin').git_files()<cr>]], { noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>pb', [[<cmd>lua require('telescope.builtin').buffers()<cr>]], { noremap = true, silent = true})
---  vim.api.nvim_set_keymap('n', '<leader>l', [[<cmd>lua require('telescope.builtin').current_buffer_fuzzy_find()<cr>]], { noremap = true, silent = true})
--- vim.api.nvim_set_keymap('n', '<leader>t', [[<cmd>lua require('telescope.builtin').tags()<cr>]], { noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>?', [[<cmd>lua require('telescope.builtin').oldfiles()<cr>]], { noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>pw', [[<cmd>lua require('telescope.builtin').grep_string{ search = vim.fn.expand("<cword>")}<cr>]], { noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>ps', [[<cmd>lua require('telescope.builtin').grep_string{ search = vim.fn.input("Grep String:")}<cr>]], { noremap = true, silent = true})
@@ -663,5 +715,4 @@ vim.api.nvim_set_keymap('n', '<leader>o', [[<cmd>lua require('telescope.builtin'
 vim.api.nvim_set_keymap('n', '<leader>gc', [[<cmd>lua require('telescope.builtin').git_commits()<cr>]], { noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>gb', [[<cmd>lua require('telescope.builtin').git_branches()<cr>]], { noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>gs', [[<cmd>lua require('telescope.builtin').git_status()<cr>]], { noremap = true, silent = true})
--- vim.api.nvim_set_keymap('n', '<leader>gp', [[<cmd>lua require('telescope.builtin').git_bcommits()<cr>]], { noremap = true, silent = true})
 EOF
