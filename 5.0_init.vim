@@ -48,7 +48,8 @@ autocmd ColorScheme * highlight LineNr  ctermfg=Yellow guifg=Yellow " Override L
 " autocmd ColorScheme * highlight LineNr  ctermfg=Black guifg=Black " Override LineNr
 autocmd ColorScheme * highlight CursorLineNr  ctermfg=White guifg=White " Override CursorLineNr
 " autocmd ColorScheme * highlight CursorLineNr  ctermfg=Blue guifg=Blue " Override CursorLineNr
-autocmd ColorScheme * highlight Comment cterm=italic gui=italic
+" autocmd ColorScheme * highlight Comment cterm=italic gui=italic
+autocmd ColorScheme * highlight Comment gui=italic
 "call plug#begin('~/.vim/plugged')
 call plug#begin('~/.local/share/nvim/plugged')
 
@@ -80,13 +81,13 @@ Plug 'dracula/vim'
 Plug 'tomasr/molokai'
 Plug 'kristijanhusak/vim-hybrid-material'
 Plug 'sonph/onehalf', {'rtp': 'vim/'}
-" Plug 'gruvbox-community/gruvbox'
+Plug 'gruvbox-community/gruvbox'
 " Plug 'sainnhe/gruvbox-material'
 Plug 'altercation/vim-colors-solarized'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'herrbischoff/cobalt2.vim'
 Plug 'kaicataldo/material.vim', { 'branch': 'main' }
-Plug 'morhetz/gruvbox'
+" Plug 'morhetz/gruvbox'
 " Plug 'crusoexia/vim-monokai'
 " Plug 'phanviet/vim-monokai-pro'
 Plug 'psliwka/vim-smoothie'
@@ -195,8 +196,8 @@ let g:indentLine_setColors = 0
 " }}
 " colorscheme hybrid_material
 let g:hybrid_material_enable_italic = 1
-colorscheme gruvbox
 let g:gruvbox_enable_italic = 1
+colorscheme gruvbox
 
 
 let g:spacegray_underline_search = 1
@@ -361,7 +362,7 @@ nnoremap <leader>l :wincmd l<CR>
 nnoremap <leader>u :UndotreeShow<CR>
 "nnoremap <leader>pv :wincmd v<bar> :Ex <bar> :vertical resize 30<CR>
 "nnoremap <leader>pv :NERDTreeToggle<CR>
-nnoremap <leader>f :NERDTreeToggle<CR>
+nnoremap <leader>t :NERDTreeToggle<CR>
 nnoremap <Leader>ps :Rg<SPACE>
 nnoremap <C-p> :GFiles<CR>
 nnoremap <Leader>pf :Files<CR>
@@ -661,12 +662,23 @@ local actions = require('telescope.actions')
 require('telescope').setup{
   defaults = {
     file_sorter = require('telescope.sorters').get_fzy_sorter,
-    prompt_prefix = '>',
+    --prompt_prefix = '>',
+    prompt_prefix = '🔍',
     color_devicons = ture,
 
     file_previewer = require('telescope.previewers').vim_buffer_cat.new,
     grep_previewer = require('telescope.previewers').vim_buffer_vimgrep.new,
     qflist_previewer = require('telescope.previewers').vim_buffer_qflist.new,
+    --theme=get_dropdown(),
+    --theme="dropdown",
+    layout_config = {
+      preview_width = 0.6,
+      width = 0.9,
+      -- vertical = { width = 1.8 }
+      -- other layout configuration here
+    },
+
+
 
     mappings = {
       i = {
@@ -676,7 +688,9 @@ require('telescope').setup{
         ["<C-j>"] = actions.move_selection_next,
         ["<C-k>"] = actions.move_selection_previous,
         ["<C-u>"] = actions.preview_scrolling_up,
-        ["<C-d>"] = actions.preview_scrolling_down
+        ["<C-d>"] = actions.preview_scrolling_down,
+        ["<C-c>"] = actions.close,
+        ["<Esc>"] = actions.close,
       },
       n = {
         ["<C-q>"] = actions.send_to_qflist,
@@ -685,7 +699,9 @@ require('telescope').setup{
         ["<C-k>"] = actions.move_selection_previous,
         ["<C-x>"] = false,
         ["<C-u>"] = actions.preview_scrolling_up,
-        ["<C-d>"] = actions.preview_scrolling_down
+        ["<C-d>"] = actions.preview_scrolling_down,
+        ["<C-c>"] = actions.close,
+        ["<Esc>"] = actions.close
       }
     },
     generic_sorter =  require'telescope.sorters'.get_fzy_sorter,
@@ -705,6 +721,7 @@ require('telescope').setup{
 require('telescope').load_extension('fzf')
 -- Add leader shortcuts
 vim.api.nvim_set_keymap('n', '<leader>pf', [[<cmd>lua require('telescope.builtin').find_files()<cr>]], { noremap = true, silent = true})
+--vim.api.nvim_set_keymap('n', '<C-p>', [[<cmd>lua require('telescope.builtin').git_files({previewer = false})<cr>]], { noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<C-p>', [[<cmd>lua require('telescope.builtin').git_files()<cr>]], { noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>pb', [[<cmd>lua require('telescope.builtin').buffers()<cr>]], { noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>?', [[<cmd>lua require('telescope.builtin').oldfiles()<cr>]], { noremap = true, silent = true})
