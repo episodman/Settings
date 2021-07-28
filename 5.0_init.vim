@@ -664,21 +664,20 @@ require('telescope').setup{
     file_sorter = require('telescope.sorters').get_fzy_sorter,
     --prompt_prefix = '>',
     prompt_prefix = '🔍',
-    color_devicons = ture,
+    color_devicons = true,
 
     file_previewer = require('telescope.previewers').vim_buffer_cat.new,
     grep_previewer = require('telescope.previewers').vim_buffer_vimgrep.new,
     qflist_previewer = require('telescope.previewers').vim_buffer_qflist.new,
-    --theme=get_dropdown(),
-    --theme="dropdown",
+
+    set_env = { ['COLORTERM'] = 'truecolor' },
+    layout_strategy = "horizontal",
+    sorting_strategy = "ascending",
     layout_config = {
-      preview_width = 0.6,
-      width = 0.9,
-      -- vertical = { width = 1.8 }
-      -- other layout configuration here
+         preview_width = 0.6,
+         width = 0.9,
+         prompt_position = 'top',
     },
-
-
 
     mappings = {
       i = {
