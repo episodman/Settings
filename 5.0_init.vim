@@ -125,7 +125,7 @@ Plug 'nvim-lua/completion-nvim'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
-Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+Plug 'nvim-telescope/telescope-fzy-native.nvim'
 Plug 'nvim-treesitter/playground'
 Plug 'glepnir/galaxyline.nvim'
 call plug#end()
@@ -138,11 +138,18 @@ if exists('+termguicolors')
     let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 endif
-let g:gruvbox_invert_selection='0'
+" let g:gruvbox_invert_selection='0'
 
 " --- The Greatest plugin of all time.  I am not bias
 let g:vim_be_good_floating = 1
 
+" -- auto-pair
+let g:AutoPairsShortcutToggle='<M-t>'
+" -- auto-pair
+" let g:AutoPairsShortcutToggle = ''
+" kj
+
+" --
 " --- ctrlp
 set wildignore+=*/tmp/*,*.so,*\\tmp\\*,*.swp,*.zip,*.exe
 set wildignore+=build*/**,oe*/**,*env*/**,env/**,venv3/**,env/*,venv3/*,tags
@@ -181,7 +188,7 @@ let g:netrw_liststyle=3
 let g:netrw_altv = 1
 let g:tokyonight_style = 'night' " available: night, storm
 let g:tokyonight_enable_italic = 1
-" colorscheme tokyonight
+colorscheme tokyonight
 "colorscheme embark
 "colorscheme ayu
 "set termguicolors     " enable true colors support
@@ -197,7 +204,7 @@ let g:indentLine_setColors = 0
 " colorscheme hybrid_material
 let g:hybrid_material_enable_italic = 1
 let g:gruvbox_enable_italic = 1
-colorscheme gruvbox
+" colorscheme gruvbox
 
 
 let g:spacegray_underline_search = 1
@@ -385,6 +392,17 @@ nnoremap <F6> :set tags=$PWD/tags<CR>
 nnoremap <F3> :vimgrep /<C-r><C-w>/gj **/*<CR>
 nmap <leader>q :q<CR>
 nmap <leader>w :w<CR>
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+" next greatest remap ever : asbjornHaland
+nnoremap <leader>y "+y
+vnoremap <leader>y "+y
+nnoremap <leader>Y gg"+yG
+
+nnoremap <leader>d "_d
+vnoremap <leader>d "_d
+
+
 " Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
 
@@ -394,6 +412,9 @@ nmap ga <Plug>(EasyAlign)
 
 autocmd Filetype cpp setlocal expandtab tabstop=4 shiftwidth=4
 autocmd Filetype python setlocal expandtab tabstop=4 shiftwidth=4
+lua require'nvim-treesitter.configs'.setup { highlight = { enable = true }, incremental_selection = { enable = true }, textobjects = { enable = true }}
+let g:vim_be_good_log_file = 1
+let g:vim_apm_log = 1
 "autocmd FileType python noremap <buffer> <F8> :call Autopep8()<CR>
 "autocmd FileType python set equalprg=autopep8\ -
 
@@ -405,8 +426,8 @@ autocmd Filetype python setlocal expandtab tabstop=4 shiftwidth=4
 " nmap <leader>vtm :highlight Pmenu ctermbg=gray guibg=gray
 
 vnoremap X "_d
-inoremap <C-c> <esc>
-inoremap ii <esc>
+inoremap <C-c> <Esc>
+inoremap ii <Esc>
 
 function! s:check_back_space() abort
  let col = col('.') - 1
@@ -663,7 +684,7 @@ require('telescope').setup{
   defaults = {
     file_sorter = require('telescope.sorters').get_fzy_sorter,
     --prompt_prefix = '>',
-    prompt_prefix = '🔍',
+    prompt_prefix = '🔍 ',
     color_devicons = true,
 
     file_previewer = require('telescope.previewers').vim_buffer_cat.new,
@@ -671,12 +692,14 @@ require('telescope').setup{
     qflist_previewer = require('telescope.previewers').vim_buffer_qflist.new,
 
     set_env = { ['COLORTERM'] = 'truecolor' },
+    --layout_strategy = "center",
     layout_strategy = "horizontal",
     sorting_strategy = "ascending",
+    --theme = "dropdown",
     layout_config = {
-         preview_width = 0.6,
-         width = 0.9,
-         prompt_position = 'top',
+        preview_width = 0.6,
+        width = 0.9,
+        prompt_position = 'top',
     },
 
     mappings = {
@@ -707,25 +730,28 @@ require('telescope').setup{
     file_sorter =  require'telescope.sorters'.get_fzy_sorter,
   },
   extensions = {
-      fzf = {
-        fuzzy = true,                    -- false will only do exact matching
+      fzy_native = {
+        --fuzzy = true,                    -- false will only do exact matching
         override_generic_sorter = false, -- override the generic sorter
         override_file_sorter = true,     -- override the file sorter
-        case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+        -- case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
                                      -- the default case_mode is "smart_case"
       }
   }
 }
 
-require('telescope').load_extension('fzf')
+require('telescope').load_extension('fzy_native')
+-- require("telescope").load_extension("git_worktree")
+-- require("telescope").load_extension("fzy_native")
 -- Add leader shortcuts
 vim.api.nvim_set_keymap('n', '<leader>pf', [[<cmd>lua require('telescope.builtin').find_files()<cr>]], { noremap = true, silent = true})
---vim.api.nvim_set_keymap('n', '<C-p>', [[<cmd>lua require('telescope.builtin').git_files({previewer = false})<cr>]], { noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<C-p>', [[<cmd>lua require('telescope.builtin').git_files()<cr>]], { noremap = true, silent = true})
+-- vim.api.nvim_set_keymap('n', '<C-p>', [[<cmd>lua require('telescope.builtin').git_files({previewer = false})<cr>]], { noremap = true, silent = true})
+--vim.api.nvim_set_keymap('n', '<C-p>', [[<cmd>lua require('telescope.builtin').git_files()<cr>]], { noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<C-p>', [[<cmd>lua require('telescope.builtin').git_files()<cr>]], {})
 vim.api.nvim_set_keymap('n', '<leader>pb', [[<cmd>lua require('telescope.builtin').buffers()<cr>]], { noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>?', [[<cmd>lua require('telescope.builtin').oldfiles()<cr>]], { noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>pw', [[<cmd>lua require('telescope.builtin').grep_string{ search = vim.fn.expand("<cword>")}<cr>]], { noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>ps', [[<cmd>lua require('telescope.builtin').grep_string{ search = vim.fn.input("Grep String:")}<cr>]], { noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>ps', [[<cmd>lua require('telescope.builtin').grep_string{ search = vim.fn.input("Grep for > ")}<cr>]], { noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>sp', [[<cmd>lua require('telescope.builtin').live_grep()<cr>]], { noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>o', [[<cmd>lua require('telescope.builtin').tags{ only_current_buffer = true }<cr>]], { noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>gc', [[<cmd>lua require('telescope.builtin').git_commits()<cr>]], { noremap = true, silent = true})
